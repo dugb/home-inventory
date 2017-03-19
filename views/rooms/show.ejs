@@ -5,9 +5,9 @@
       <p class="lead">
         <a href="/rooms">Room List</a></p>
       <div class="list-group">
-        <li class="list-group-item active">Kitchen</li>
-        <li class="list-group-item">Living Room</li>
-        <li class="list-group-item">Master Bedroom  </li>
+        <% rooms.forEach(function(roomList){ %>
+            <li class="list-group-item"><a class="" href="/rooms/<%= roomList._id %>"><%= roomList.name %></a></li>
+        <% }); %>
       </div>
     </div>
     <div class="col-md-10">

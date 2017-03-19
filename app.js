@@ -26,9 +26,9 @@ app.get('/rooms', function(req,res){
   // Get all rooms from DB
   Room.find({}, function(err, allRooms){
     if(err){
-        console.log(err);
+      console.log(err);
     } else {
-        res.render('rooms/index',{rooms:allRooms});
+      res.render('rooms/index',{rooms:allRooms});
     }
   });
 });
@@ -63,8 +63,14 @@ app.get('/rooms/:id', function(req, res){
     if(err){
       console.log(err);
     } else {
-      // render show template for that room
-      res.render('rooms/show', {room: foundRoom});
+        Room.find({}, function(err, allRooms){
+          if(err){
+            console.log(err);
+          } else {
+            // render show template for that room
+            res.render('rooms/show', {room: foundRoom, rooms: allRooms});
+        }
+      });
     }
   });
 });

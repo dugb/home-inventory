@@ -1,28 +1,23 @@
 <% include ../partials/header %>
-
 <div class="container">
   <header class="jumbotron">
-    <h1>Welcome to Home-Inventory</h1>
-    <p>Inventory all the stuff in your home.</p>
-    <p>
-      <a class = " btn btn-primary btn-large"href="/rooms/new">Add New Room</a>
-    </p>
+    <h1>Home-Inventory</h1>
+    <p>Keep track of all the stuff in your home.</p>
+    <p><a class = " btn btn-default"href="/rooms/new">Add New Room</a></p>
   </header>
   <div class="row text-center" style = "display:flex; flex-wrap: wrap;">
     <% rooms.forEach(function(room){ %>
       <div class="col-md-3 col-sm-6">
         <div class="thumbnail">
-            <img src="<%= room.image %>" alt="">
+            <a href="/rooms/<%= room._id %>">
+              <img src="<%= room.image %>" alt="">
+            </a>
             <div class="caption">
-              <h4><%= room.name %></h4>
+              <a href="/rooms/<%= room._id %>" class="btn btn-default"><%= room.name %></a>
             </div>
-            <p>
-              <a href="/rooms/<%= room._id %>" class="btn btn-primary">More Info</a>
-            </p>
         </div>
       </div>
     <% }); %>
   </div>
-
 </div>
 <% include ../partials/footer %>
