@@ -1,0 +1,50 @@
+<% include ../partials/header %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-2">
+      <p class="lead">
+        <a href="/rooms">Room List</a></p>
+      <div class="list-group">
+        <li class="list-group-item active">Kitchen</li>
+        <li class="list-group-item">Living Room</li>
+        <li class="list-group-item">Master Bedroom  </li>
+      </div>
+    </div>
+    <div class="col-md-10">
+      <div class="thumbnail">
+        <img class="img-responsive" src="<%= room.image %>" alt="Room Image">
+        <div class="caption-full">
+          <h4><a><%= room.name %></a></h4>
+          <p><%= room.description %></p>
+        </div>
+      </div>
+      <div class="well">
+        <div class="text-center">
+          <h3>Room Inventory</h3>
+          <a class = "btn btn-xs btn-success" href="/rooms/<%= room._id %>/items/new">Add New Item</a>
+        </div>
+        <hr>
+        <% room.items.forEach(function(item){ %>
+          <div class="row">
+            <div class="col-md-12">
+              <strong><%= item.name %></strong>
+              <span class="pull-right">added 10 days ago</span>
+              <p>
+                <%= item.description %>
+                <div class="row">
+                    <% item.image.forEach(function(img){ %>
+                      <div class="col-md-2">
+                        <img class="img-fluid img-thumbnail" src="<%= img %>" alt="">
+                      </div>
+                    <% }) %>
+                </div>
+
+              </p>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</div>
+<% include ../partials/footer %>
