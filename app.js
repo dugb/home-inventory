@@ -17,7 +17,7 @@ var itemRoutes  = require('./routes/items'),
 
  // PASSPORT CONFIGURATION
 app.use(require('express-session')({
-  secret: "Doug is most awesome coder!!!",
+  secret: "secret password",
   resave: false,
   saveUninitialized: false
 }));
