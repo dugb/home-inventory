@@ -78,6 +78,39 @@ router.get('/:id', function(req, res){
   });
 });
 
+// EDIT ROOM ROUTE
+router.get('/:id/edit', function(req, res){
+  Room.findById(req.params.id, function(err, foundRoom){
+    if(err){
+      res.redirect('/rooms');
+    }else{
+      res.render('rooms/edit', {room: foundRoom});
+    }
+  });
+});
+
+// UPDATE ROOM ROUTE
+router.put('/:id', function(req, res){
+  //find and update the room
+  Room.findByIdAndUpdate(req.params.id, req.body.room, function(err, updatedRoom){
+    if(err){
+      res.redirect('/rooms');
+    }else{
+      res.redirect('/rooms/' + req.params.id);
+    }
+  });
+});
+// DESTROY ROOM ROUTE
+router.delete('/:id', function(req, res){
+  Room.findByIdAndRemove(req.params.id, function(err){
+    if(err){
+      res.redirect('/rooms');
+    }else{
+      res.redirect('/rooms');
+    }
+  });
+});
+
 //Middleware
 function isLoggedIn(req, res, next){
   if (req.isAuthenticated()){

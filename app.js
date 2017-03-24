@@ -4,6 +4,7 @@
  mongoose         = require('mongoose'),
  passport         = require('passport'),
  LocalStrategy    = require('passport-local'),
+ methodOverride   = require('method-override'),
  User             = require('./models/user'),
  Room             = require('./models/room'),
  Item             = require('./models/item'),
@@ -16,7 +17,7 @@ var itemRoutes  = require('./routes/items'),
 
  // PASSPORT CONFIGURATION
 app.use(require('express-session')({
-  secret: "secret password",
+  secret: "Doug is most awesome coder!!!",
   resave: false,
   saveUninitialized: false
 }));
@@ -29,6 +30,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
+app.use(methodOverride('_method'));
 
  // Connect to mongo DB
  mongoose.connect('mongodb://localhost/home_inventory_5');

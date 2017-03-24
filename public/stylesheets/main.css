@@ -13,3 +13,7 @@
 a {
   color: black;
 }
+
+#delete-form {
+  display: inline;
+}
