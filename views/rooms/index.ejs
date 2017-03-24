@@ -2,6 +2,9 @@
 <div class="container">
   <header class="jumbotron">
     <h1>Home-Inventory</h1>
+    <% if(currentUser){ %>
+      <h3><%= currentUser.username %></h3>
+    <% } %>
     <p>Keep track of all the stuff in your home.</p>
     <p><a class = " btn btn-default"href="/rooms/new">Add New Room</a></p>
   </header>
@@ -20,4 +23,5 @@
     <% }); %>
   </div>
 </div>
+
 <% include ../partials/footer %>

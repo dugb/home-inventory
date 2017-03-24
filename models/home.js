@@ -2,10 +2,7 @@ var mongoose = require('mongoose');
 
 
 // Schema Setup
-var roomSchema = new mongoose.Schema({
-  name: String,
-  image: String,
-  description: String,
+var homeSchema = new mongoose.Schema({
   owner: {
     id: {
       type: mongoose.Schema.Types.ObjectId,
@@ -13,12 +10,12 @@ var roomSchema = new mongoose.Schema({
     },
     username: String
   },
-  items: [
+  rooms: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Item"
+      ref: "Room"
     }
   ]
 });
 // Compile Schema into a Model
-module.exports = mongoose.model("Room", roomSchema);
+module.exports = mongoose.model("Home", homeSchema);
