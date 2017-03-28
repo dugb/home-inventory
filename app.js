@@ -10,6 +10,8 @@
  Item             = require('./models/item'),
  seedDB           = require('./seeds');
 
+require('dotenv').config();
+
  // requiring routes
 var itemRoutes  = require('./routes/items'),
     roomRoutes  = require('./routes/rooms'),
@@ -17,7 +19,7 @@ var itemRoutes  = require('./routes/items'),
 
  // PASSPORT CONFIGURATION
 app.use(require('express-session')({
-  secret: "secret password",
+  secret:  process.env.SECRET,
   resave: false,
   saveUninitialized: false
 }));
@@ -33,7 +35,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(methodOverride('_method'));
 
  // Connect to mongo DB
- mongoose.connect('mongodb://localhost/home_inventory_5');
+ mongoose.connect(process.env.DB_PATH);
 
 //seedDB();
 
@@ -75,7 +77,7 @@ app.get('/', function(req, res){
 })
 
 // Start Node Server
- app.listen('3000', function(){
+ app.listen(process.env.SERVER_PORT, function(){
    console.log("Home-Inventory Server started - localhost:3000");
    console.log("ctrl-C to stop");
  });

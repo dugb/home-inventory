@@ -41,6 +41,39 @@ router.post('/', isLoggedIn, function(req, res){
   });
 });
 
+// item show edit from
+router.get('/:item_id/edit', checkItemOwnership, function(req, res){
+  Item.findById(req.params.item_id, function(err, foundItem){
+    if(err){
+      res.redirectr('back');
+    }else{
+      res.render('items/edit', {room_id: req.params.id, item: foundItem});
+    }
+  });
+});
+
+// item update
+router.put('/:item_id', checkItemOwnership, function(req, res){
+  Item.findByIdAndUpdate(req.params.item_id, req.body.item, function(err, updatedItem){
+    if(err){
+      res.redirect('back');
+    }else{
+      res.redirect('/rooms/' + req.params.id);
+    }
+  })
+});
+
+// item destroy
+router.delete('/:item_id', checkItemOwnership,  function(req, res){
+  Item.findByIdAndRemove(req.params.item_id, function(err){
+    if(err){
+        res.redirect('back');
+    }else{
+        res.redirect('/rooms/' + req.params.id);;
+    }
+  });
+});
+
 // Middleware
 function isLoggedIn(req, res, next){
   if (req.isAuthenticated()){
@@ -48,5 +81,25 @@ function isLoggedIn(req, res, next){
   }
   res.redirect('/login');
 };
+
+function checkItemOwnership(req, res, next){
+  if(req.isAuthenticated()){
+    Item.findById(req.params.item_id, function(err, foundItem){
+      if(err){
+        res.redirect('back');
+      } else {
+        //does user own the item?
+        if(foundItem.owner.id.equals(req.user._id)){
+          next();
+        } else {
+          res.redirect('back');
+      }
+    }
+  });
+  }else{
+    res.redirect('back');
+  }
+};
+
 
 module.exports = router;

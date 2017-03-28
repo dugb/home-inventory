@@ -1,28 +1,22 @@
-
 body {
 
   background: #FF8008; /* fallback for old browsers */
   background: -webkit-linear-gradient(to left, #FF8008 , #FFC837); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to left, #FF8008 , #FFC837); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-}   
-
-.thumbnail img {
-  width:  100%;
 }
 
-.thumbnail {
-  padding: 0;
+h1 {
+  font-size: 6em;
 }
 
-.thumbnail .caption-full {
-  padding: 9px;
+#landing-header {
+  z-index: 1;
+  position: relative;
+  text-align: center;
+  padding-top: 30vh;
 }
 
-a {
-  color: black;
-}
-
-#delete-form {
-  display: inline;
+.landing-button {
+  padding-top: 15px;
 }

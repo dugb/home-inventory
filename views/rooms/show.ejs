@@ -16,10 +16,12 @@
         <div class="caption-full">
           <h4><a><%= room.name %></a></h4>
           <p><%= room.description %></p>
-          <a class="btn btn-xs btn-warning" href="/rooms/<%= room._id %>/edit">Edit</a>
-          <form id="delete-form" class="" action="/rooms/<%= room._id %>?_method=DELETE" method="post">
-            <button class="btn btn-xs btn-danger">Delete</button>
-          </form>
+          <% if(currentUser && room.owner.id.equals(currentUser._id)){ %>
+            <a class="btn btn-xs btn-warning" href="/rooms/<%= room._id %>/edit">Edit</a>
+            <form id="delete-form" class="" action="/rooms/<%= room._id %>?_method=DELETE" method="post">
+              <button class="btn btn-xs btn-danger">Delete</button>
+            </form>
+          <% } %>
         </div>
       </div>
       <div class="well">
@@ -43,6 +45,17 @@
                     <% }) %>
                 </div>
               </p>
+              <% if(currentUser && item.owner.id.equals(currentUser._id)){ %>
+                <a class="btn btn-xs btn-warning"
+                  href="/rooms/<%= room._id %>/items/<%= item._id %>/edit">
+                  Edit
+                </a>
+                <form id="delete-form" class=""
+                  action="/rooms/<%= room._id %>/items/<%= item._id %>?_method=DELETE"
+                  method="post">
+                  <button class="btn btn-xs btn-danger">Delete</button>
+                </form>
+              <% } %>
             </div>
           </div>
         <% }) %>

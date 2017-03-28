@@ -1,4 +1,34 @@
-<% include partials/header %>
-<h1>Landing Page</h1>
-<a href="/rooms">rooms page</a>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HomeInventory</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/stylesheets/landing.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
+    </head>
+    <body>
+
+      <div id="landing-header">
+        <h1>Home Inventory!</h1>
+        <h3>Keep a photo record of all your stuff, stored safely in the cloud.</h3>
+        <% if(!currentUser){ %>
+          <div class="landing-button">
+              <p>Get Started Now!  It's free! No email required.</p>
+              <a href="/register" class="btn btn-lg btn-warning">Sign Up</a>
+          </div>
+          <div class="landing-button">
+            <p>Already have an account?</p>
+             <a href="/login" class="btn btn-lg btn-warning">Login</a>
+          </div>
+        <% }else{ %>
+          <div class="landing-button">
+            <p><h4>Hello, <%= currentUser.username %>!</h4></p>
+             <a href="/rooms" class="btn btn-lg btn-warning"> Home </a>
+          </div>
+          <div class="landing-button">
+             <a href="/logout" class="btn btn-lg btn-warning">Log out</a>
+          </div>
+        <% } %>
+      </div>
+
 <% include partials/footer %>

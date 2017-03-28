@@ -60,7 +60,7 @@ router.post('/', isLoggedIn, function(req, res){
 });
 
 // SHOW - shows more info about one room
-router.get('/:id', function(req, res){
+router.get('/:id', checkRoomOwnership, function(req, res){
   // find room with provided ID
   Room.findById(req.params.id).populate('items').exec(function(err, foundRoom){
     if(err){
@@ -79,18 +79,14 @@ router.get('/:id', function(req, res){
 });
 
 // EDIT ROOM ROUTE
-router.get('/:id/edit', function(req, res){
+router.get('/:id/edit', checkRoomOwnership, function(req, res){
   Room.findById(req.params.id, function(err, foundRoom){
-    if(err){
-      res.redirect('/rooms');
-    }else{
       res.render('rooms/edit', {room: foundRoom});
-    }
   });
 });
 
 // UPDATE ROOM ROUTE
-router.put('/:id', function(req, res){
+router.put('/:id', checkRoomOwnership, function(req, res){
   //find and update the room
   Room.findByIdAndUpdate(req.params.id, req.body.room, function(err, updatedRoom){
     if(err){
@@ -101,7 +97,7 @@ router.put('/:id', function(req, res){
   });
 });
 // DESTROY ROOM ROUTE
-router.delete('/:id', function(req, res){
+router.delete('/:id', checkRoomOwnership, function(req, res){
   Room.findByIdAndRemove(req.params.id, function(err){
     if(err){
       res.redirect('/rooms');
@@ -117,6 +113,25 @@ function isLoggedIn(req, res, next){
     return next();
   }
   res.redirect('/login');
+};
+
+function checkRoomOwnership(req, res, next){
+  if(req.isAuthenticated()){
+    Room.findById(req.params.id, function(err, foundRoom){
+      if(err){
+        res.redirect('back');
+      } else {
+        //does user own the room?
+        if(foundRoom.owner.id.equals(req.user._id)){
+          next();
+        } else {
+          res.redirect('back');
+      }
+    }
+  });
+  }else{
+    res.redirect('back');
+  }
 };
 
 module.exports = router;
