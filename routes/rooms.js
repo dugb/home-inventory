@@ -2,20 +2,11 @@ var express = require('express');
 var router = express.Router({mergeParams: true});
 var Room = require('../models/room');
 var Home = require('../models/home');
+var middleware = require('../middleware');
 
 //  index of rooms route
-router.get('/', isLoggedIn, function(req,res){
-  //get current users Home
-//   Home.findOne({'owner.id': req.user._id}, function(err, foundHome){
-//     if(err){
-//       console.log(err);
-//     } else {
-//       res.render('rooms', {rooms:foundHome.rooms});
-//     }
-//   });
-// });
-
-  // get current users rooms from DB
+router.get('/', middleware.isLoggedIn, function(req,res){
+// get current users rooms from DB
   Room.find({"owner.id": req.user._id}, function(err, userRooms){
     if(err){
       console.log(err);
@@ -26,12 +17,12 @@ router.get('/', isLoggedIn, function(req,res){
 });
 
 //create new room route
-router.get('/new', isLoggedIn, function(req, res){
+router.get('/new', middleware.isLoggedIn, function(req, res){
   res.render('rooms/new.ejs');
 });
 
 //CREATE - add new room to DB
-router.post('/', isLoggedIn, function(req, res){
+router.post('/', middleware.isLoggedIn, function(req, res){
   // get data from form and add to room
   var name = req.body.name;
   var image = req.body.image;
@@ -60,7 +51,7 @@ router.post('/', isLoggedIn, function(req, res){
 });
 
 // SHOW - shows more info about one room
-router.get('/:id', checkRoomOwnership, function(req, res){
+router.get('/:id', middleware.checkRoomOwnership, function(req, res){
   // find room with provided ID
   Room.findById(req.params.id).populate('items').exec(function(err, foundRoom){
     if(err){
@@ -79,14 +70,14 @@ router.get('/:id', checkRoomOwnership, function(req, res){
 });
 
 // EDIT ROOM ROUTE
-router.get('/:id/edit', checkRoomOwnership, function(req, res){
+router.get('/:id/edit', middleware.checkRoomOwnership, function(req, res){
   Room.findById(req.params.id, function(err, foundRoom){
       res.render('rooms/edit', {room: foundRoom});
   });
 });
 
 // UPDATE ROOM ROUTE
-router.put('/:id', checkRoomOwnership, function(req, res){
+router.put('/:id', middleware.checkRoomOwnership, function(req, res){
   //find and update the room
   Room.findByIdAndUpdate(req.params.id, req.body.room, function(err, updatedRoom){
     if(err){
@@ -97,7 +88,7 @@ router.put('/:id', checkRoomOwnership, function(req, res){
   });
 });
 // DESTROY ROOM ROUTE
-router.delete('/:id', checkRoomOwnership, function(req, res){
+router.delete('/:id', middleware.checkRoomOwnership, function(req, res){
   Room.findByIdAndRemove(req.params.id, function(err){
     if(err){
       res.redirect('/rooms');
@@ -106,32 +97,5 @@ router.delete('/:id', checkRoomOwnership, function(req, res){
     }
   });
 });
-
-//Middleware
-function isLoggedIn(req, res, next){
-  if (req.isAuthenticated()){
-    return next();
-  }
-  res.redirect('/login');
-};
-
-function checkRoomOwnership(req, res, next){
-  if(req.isAuthenticated()){
-    Room.findById(req.params.id, function(err, foundRoom){
-      if(err){
-        res.redirect('back');
-      } else {
-        //does user own the room?
-        if(foundRoom.owner.id.equals(req.user._id)){
-          next();
-        } else {
-          res.redirect('back');
-      }
-    }
-  });
-  }else{
-    res.redirect('back');
-  }
-};
 
 module.exports = router;

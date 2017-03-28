@@ -10,6 +10,7 @@
  Item             = require('./models/item'),
  seedDB           = require('./seeds');
 
+// .env
 require('dotenv').config();
 
  // requiring routes
@@ -29,48 +30,23 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// app setup
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(methodOverride('_method'));
-
- // Connect to mongo DB
- mongoose.connect(process.env.DB_PATH);
-
-//seedDB();
-
-// Room.remove({}, function(err){
-//   if(err){
-//     console.log(err);
-//   } else {
-//   console.log('removed rooms');
-  // Item.remove({}, function(err){
-  //   if(err){
-  //     console.log(err);
-  //   }else{
-  //     console.log('remove items');
-  //     }
-  //   });
-//   }
-// });
-
-// User.remove({}, function(err){
-//    if(err){
-//      console.log(err);
-//    }else{
-//      console.log('remove users');
-//      }
-//    });
-//
 app.use(function (req, res, next){
   res.locals.currentUser = req.user;
   next();
 });
 
+ // Connect to mongo DB
+ mongoose.connect(process.env.DB_PATH);
+
+// Routes
 app.use('/', indexRoutes);
 app.use('/rooms', roomRoutes);
 app.use('/rooms/:id/items', itemRoutes);
-
 // Landing
 app.get('/', function(req, res){
   res.render('landing');

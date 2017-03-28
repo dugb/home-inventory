@@ -4,6 +4,7 @@ var passport = require('passport');
 var Room = require('../models/room');
 var User = require('../models/user');
 var Home = require('../models/home');
+var middleware = require('../middleware');
 
 
 // show register form
@@ -63,7 +64,7 @@ router.get('/logout', function(req, res){
 })
 
 //  USER HOME PAGE - INDEX OF USERS ROOMS
-router.get('/home', isLoggedIn, function(req, res){
+router.get('/home', middleware.isLoggedIn, function(req, res){
   Room.find({"owner.id": req.user._id}, function(err, userRooms){
     if(err){
       console.log(err);
@@ -72,13 +73,5 @@ router.get('/home', isLoggedIn, function(req, res){
     }
   });
 });
-
-// Middleware
-function isLoggedIn(req, res, next){
-  if (req.isAuthenticated()){
-    return next();
-  }
-  res.redirect('/login');
-};
 
 module.exports = router;
