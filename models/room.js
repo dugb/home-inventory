@@ -4,7 +4,13 @@ var mongoose = require('mongoose');
 // Schema Setup
 var roomSchema = new mongoose.Schema({
   name: String,
-  image: String,
+  image: {
+    awsBucket: String,
+    awsKey: String,
+    urlDefault: String,
+    urlFullSize: String,
+    urlMobile: String
+  },
   description: String,
   owner: {
     id: {

@@ -10,6 +10,11 @@
  Item             = require('./models/item'),
  seedDB           = require('./seeds');
 
+  // Load the AWS SDK and UUID and fs
+  var fs = require('fs');
+  var AWS = require('aws-sdk');
+  var uuid = require('node-uuid');
+
 // .env
 require('dotenv').config();
 

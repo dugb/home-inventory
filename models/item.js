@@ -4,7 +4,13 @@ var mongoose = require('mongoose');
 var itemSchema = mongoose.Schema({
   name: String,
   description: String,
-  image: [String],
+  image: [
+    {
+      urlDefault: String,
+      urlMobile: String,
+      urlFullSize: String
+    }
+    ],
   owner: {
     id: {
       type: mongoose.Schema.Types.ObjectId,

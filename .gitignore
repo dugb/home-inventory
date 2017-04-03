@@ -1,3 +1,6 @@
 node_modules/
+tmp/
+images/
 seeds.js
 .env
+.notes
