@@ -17,8 +17,8 @@ router.post('/register', function(req, res){
   var newUser = new User({username: req.body.username});
   User.register(newUser, req.body.password, function(err, user){
       if(err){
-        console.log(err);
-        return res.render('register')
+        //console.log(err);
+        return res.render('register', {'error': err.message});
       }
       passport.authenticate('local')(req, res, function(){
 
@@ -35,10 +35,11 @@ router.post('/register', function(req, res){
           if(err){
             console.log(err);
           } else {
-              console.log('### new home:  ' + newlyCreated);
+              //console.log('new home created:  ' + newlyCreated);
           }
         });
         //redirect to home(rooms index)
+        req.flash('success', "Welcome " + user.username);
         res.redirect('rooms');
       });
   });
@@ -60,6 +61,7 @@ router.post('/login', passport.authenticate("local",
 // logout route
 router.get('/logout', function(req, res){
   req.logout();
+  req.flash('success', "Logged you out!")
   res.redirect('/');
 })
 

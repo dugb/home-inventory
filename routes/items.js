@@ -20,12 +20,13 @@ router.post('/', middleware.isLoggedIn, function(req, res){
   //lookup room using id
   Room.findById(req.params.id, function(err, room){
     if(err){
-      console.log(err);
       res.redirect("/rooms");
     }else{
       //create new item
       Item.create(req.body.item, function(err, item){
         if(err){
+          req.flash('error', "Something went wrong!");
+
           console.log(err);
         }else{
           // add username and id to item
@@ -35,6 +36,7 @@ router.post('/', middleware.isLoggedIn, function(req, res){
           item.save();
           room.items.push(item);
           room.save();
+          req.flash('success', "Successfully added you new item!");
           res.redirect('/rooms/' + room._id);
         }
       });
@@ -70,6 +72,7 @@ router.delete('/:item_id', middleware.checkItemOwnership,  function(req, res){
     if(err){
         res.redirect('back');
     }else{
+      req.flash('success', "Item Deleted!")
         res.redirect('/rooms/' + req.params.id);;
     }
   });

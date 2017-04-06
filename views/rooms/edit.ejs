@@ -4,16 +4,21 @@
   <div class="row">
     <h1 style="text-align: center;">Edit <%= room.name %></h1>
       <div style="width: 30%; margin: 30px auto;">
-        <form action="/rooms/<%= room._id %>?_method=PUT" method="post">
+        <form action="/rooms/<%= room._id %>?_method=PUT" enctype="multipart/form-data" method="post">
           <div class="form-group">
-            <input class="form-control" type="text" value="<%= room.name %>" name="room[name]" >
-          </div>
-          <div class="form-group">
-            <input class="form-control" type="text" value="<%= room.image %>" name="room[image]" >
+            <input class="form-control" type="text" value="<%= room.name %>" name="name" autofocus required="">
           </div>
 
           <div class="form-group">
-            <input class="form-control" type="text" value="<%= room.description %>" name="room[description]" >
+            <input class="form-control" type="text" value="<%= room.description %>" name="description" required>
+          </div>
+
+          <div class="thumbnail">
+            <img class="img-responsive" src="<%= room.image.urlDefault %>" alt="">
+          </div>
+
+          <div class="form-group">
+            <input class="form-control" type="file" name="upload" capture="camera" accept="image/*" id="takePictureField" >
           </div>
 
           <div class="form-group">

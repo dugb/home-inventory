@@ -126,6 +126,7 @@ router.put('/:id', middleware.checkRoomOwnership, function(req, res){
     }
   });
 });
+
 // DESTROY ROOM ROUTE
 router.delete('/:id', middleware.checkRoomOwnership, function(req, res){
   // delete photo from s3

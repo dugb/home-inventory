@@ -9,13 +9,13 @@
             <img class="img-fluid img-thumbnail" src="<%= item.image %>" alt="">
           </div>
           <div class="form-group">
-            <input class="form-control" type="text" value="<%= item.name %>" name="item[name]" >
+            <input class="form-control" type="text" value="<%= item.name %>" name="item[name]" required autofocus>
           </div>
           <div class="form-group">
-            <input class="form-control" type="text" value="<%= item.description %>" name="item[description]" >
+            <input class="form-control" type="text" value="<%= item.description %>" name="item[description]" required>
           </div>
           <div class="form-group">
-            <input class="form-control" type="text" value="<%= item.image %>" name="item[image]" >
+            <input class="form-control" type="text" value="<%= item.image %>" name="item[image]" required>
           </div>
           <div class="form-group">
             <button class="btn btn-large btn-primary btn-block">Submit!</button>
